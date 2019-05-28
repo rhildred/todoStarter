@@ -20,7 +20,7 @@ npm install
 ### 3. Run the app
 
 ```
-npm start
+PORT=1234 npm start
 ```
 
 App will be opened in browser at `http://localhost:1234/`
