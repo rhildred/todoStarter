@@ -18,6 +18,8 @@ var app = new Framework7({
 })
 
 app.on('click', function (e) {
-  localStorage.setItem('theme', JSON.stringify(e.target.dataset.theme))
+  if(e.target.dataset.theme){
+      localStorage.setItem('theme', JSON.stringify(e.target.dataset.theme));
+  }
   location.reload()
 })
