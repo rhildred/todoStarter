@@ -10,7 +10,7 @@
     "init": "firebase init",
     "deploy": "firebase deploy",
     "login": "firebase login",
-    "use": "firebase use"
+    "use": "firebase use --add"
   },
   "repository": {
     "type": "git",
