@@ -3,9 +3,6 @@ import Framework7 from 'framework7/framework7.esm'
 
 // Theme
 var theme = 'auto';
-if (localStorage.getItem('theme')) {
-  theme = JSON.parse(localStorage.getItem('theme'));
-}
 
 // Init F7
 var app = new Framework7({
@@ -17,9 +14,9 @@ var app = new Framework7({
   },
 })
 
-app.on('click', function (e) {
-  if(e.target.dataset.theme){
-      localStorage.setItem('theme', JSON.stringify(e.target.dataset.theme));
-  }
-  location.reload()
-})
+document.getElementById("magic").addEventListener("submit", (evt)=>{
+    evt.preventDefault();
+    const aAnswers = ["no", "yes"];
+    const nAnswer = Math.floor(Math.random() * aAnswers.length);
+    document.getElementById("answer").innerHTML = aAnswers[nAnswer];
+});
