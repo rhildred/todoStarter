@@ -6,3 +6,4 @@ package-lock.json
 .theia
 docs/
 .firebaserc
+public/firebase.js
