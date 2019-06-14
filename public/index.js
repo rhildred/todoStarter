@@ -7,6 +7,8 @@ import 'firebase/database';
 // Theme
 var theme = 'auto';
 
+firebase.initializeApp(config);
+
 // Init F7
 var app = new Framework7({
   root: '#app',
@@ -17,14 +19,28 @@ var app = new Framework7({
   },
 })
 
-function addTodo(sTodo){
+
+function addTodo(sKey, sTodo){
   let oTodo = document.createElement("p");
-  oTodo.innerHTML = sTodo;
+  oTodo.innerHTML = sTodo + "<button id=\"" + sKey + "\" class=\"delete\">delete</button>";
   document.getElementById("list").prepend(oTodo);
 }
+
+firebase.database().ref("todos").on("value", (snapshot) =>{
+  const oTodos=snapshot.val();
+  console.log(oTodos);
+  document.getElementById("list").innerHTML = "";
+  Object.keys(oTodos).map((sKey) => {
+    addTodo(sKey, oTodos[sKey].name);
+
+  });
+})
 
 document.getElementById("todo").addEventListener("submit", (evt)=>{
     evt.preventDefault();
     const sTodo = document.getElementById("todoEntry").value;
-    addTodo(sTodo);
+    const sId = new Date().toISOString().replace(".", "_");
+    firebase.database().ref("todos/" + sId).set({
+      name: sTodo
+    });
 });
