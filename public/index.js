@@ -10,7 +10,7 @@ var theme = 'auto';
 firebase.initializeApp(config);
 
 // Init F7
-var app = new Framework7({
+new Framework7({
   root: '#app',
   theme: theme,
   // Fix for iPhone X notch
