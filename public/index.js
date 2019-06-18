@@ -1,5 +1,5 @@
 // Libraries
-import Framework7 from 'framework7/framework7.esm'
+import Framework7 from 'framework7/framework7.esm.bundle'
 import config from "./firebase.js";
 import firebase from 'firebase/app';
 import 'firebase/database';
