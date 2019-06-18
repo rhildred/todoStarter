@@ -22,7 +22,7 @@ new Framework7({
 
 function addTodo(sKey, sTodo){
   let oTodo = document.createElement("p");
-  oTodo.innerHTML = sTodo + "<button id=\"" + sKey + "\" class=\"delete\">delete</button>";
+  oTodo.innerHTML = sTodo + "<div class=\"row\"><div class=\"col\"><button id=\"d" + sKey + "\" class=\"delete\">delete</button></div><div class=\"col\"><button id=\"f" + sKey + "\" class=\"finish\">finish</button></div></div>";
   document.getElementById("list").prepend(oTodo);
 }
 
@@ -30,10 +30,13 @@ firebase.database().ref("todos").on("value", (snapshot) =>{
   const oTodos=snapshot.val();
   console.log(oTodos);
   document.getElementById("list").innerHTML = "";
-  Object.keys(oTodos).map((sKey) => {
-    addTodo(sKey, oTodos[sKey].name);
-
-  });
+  let aTodos = Object.keys(oTodos);
+  for(let n = 0; n < aTodos.length; n++){
+    const sKey = aTodos[n];
+    addTodo(sKey, oTodos[aTodos[n]].name);
+  }
+  createDeleteHandlers();
+  createFinishHandlers();
 })
 
 document.getElementById("todo").addEventListener("submit", (evt)=>{
@@ -44,3 +47,26 @@ document.getElementById("todo").addEventListener("submit", (evt)=>{
       name: sTodo
     });
 });
+
+function createDeleteHandlers(){
+  var aClassname = document.getElementsByClassName("delete");
+
+  for(var n = 0; n < aClassname.length; n++){
+    aClassname[n].addEventListener("click", (evt) =>{
+      const sId = evt.target.id.substr(1); 
+      firebase.database().ref("todos/" + sId).remove();
+    })
+  }
+}
+
+function createFinishHandlers(){
+  var aClassname = document.getElementsByClassName("finish");
+
+  for(var n = 0; n < aClassname.length; n++){
+    aClassname[n].addEventListener("click", (evt) =>{
+      const sId = evt.target.id.substr(1);
+      const sFinished =  new Date().toISOString().replace(".", "_");
+      firebase.database().ref("todos/" + sId + "/completed").set(sFinished);
+    })
+  }
+}
