@@ -3,6 +3,7 @@ import Framework7 from 'framework7/framework7.esm.bundle'
 import config from "./firebase.js";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
 
 // Theme
 var theme = 'auto';
@@ -19,6 +20,47 @@ new Framework7({
   },
 })
 
+function toggleSignIn() {
+  if (!firebase.auth().currentUser) {
+    // [START createprovider]
+    var provider = new firebase.auth.GoogleAuthProvider();
+    // [END createprovider]
+    // [START addscopes]
+    provider.addScope('https://www.googleapis.com/auth/plus.login');
+    // [END addscopes]
+    // [START signin]
+    firebase.auth().signInWithRedirect(provider);
+    // [END signin]
+  } else {
+    // [START signout]
+    firebase.auth().signOut();
+    // [END signout]
+  }
+}
+// [END buttoncallback]
+
+document.getElementById("login").addEventListener("click", evt =>{
+  evt.preventDefault();
+  toggleSignIn();
+});
+
+/*document.getElementById("logout").addEventListener("click", evt =>{
+  evt.preventDefault();
+  toggleSignIn();
+})*/
+
+      // Listening for auth state changes.
+      // [START authstatelistener]
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    console.log(user);
+    document.getElementById("loggedIn").className = "loggedIn";
+  } else {
+    // User is signed out.
+    document.getElementById("loggedIn").className = "notLoggedIn";
+  }
+});
 
 function addTodo(sKey, sTodo){
   let oTodo = document.createElement("p");
