@@ -3,6 +3,7 @@ import Framework7 from 'framework7/framework7.esm.bundle'
 import config from "./firebase.js";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
 
 // Theme
 var theme = 'auto';
@@ -19,9 +20,22 @@ new Framework7({
   },
 })
 
+document.getElementById("login").addEventListener("click", (evt)=>{
+  const oProvider = new firebase.auth.GoogleAuthProvider;
+  firebase.auth().signInWithRedirect(oProvider);
+});
 
-function addTodo(sKey, sTodo){
+document.getElementById("logout").addEventListener("click", (evt)=>{
+  evt.preventDefault();
+  firebase.auth().signOut();
+});
+
+function addTodo(sKey, oTodoObject){
   let oTodo = document.createElement("p");
+  let sTodo = oTodoObject.name;
+  if(oTodoObject.completed){
+    sTodo = "<span class=\"completed\">" + sTodo + "</span>";
+  }
   oTodo.innerHTML = sTodo + "<div class=\"row\"><div class=\"col\"><button id=\"d" + sKey + "\" class=\"delete\">delete</button></div><div class=\"col\"><button id=\"f" + sKey + "\" class=\"finish\">finish</button></div></div>";
   document.getElementById("list").prepend(oTodo);
 }
@@ -33,11 +47,20 @@ firebase.database().ref("todos").on("value", (snapshot) =>{
   let aTodos = Object.keys(oTodos);
   for(let n = 0; n < aTodos.length; n++){
     const sKey = aTodos[n];
-    addTodo(sKey, oTodos[aTodos[n]].name);
+    addTodo(sKey, oTodos[sKey]);
   }
   createDeleteHandlers();
   createFinishHandlers();
 })
+
+firebase.auth().onAuthStateChanged((user)=>{
+  if(user){
+    document.getElementById("bLoggedIn").className = "loggedIn";
+    console.log(user);
+  }else{
+    document.getElementById("bLoggedIn").className = "notLoggedIn";
+  }
+});
 
 document.getElementById("todo").addEventListener("submit", (evt)=>{
     evt.preventDefault();

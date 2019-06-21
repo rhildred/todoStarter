@@ -12,8 +12,10 @@
   * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
   * Enable inline JS: add 'unsafe-inline' to default-src
 -->
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#2196f3">
@@ -39,10 +41,26 @@
         </div>
         <div class="page-content">
           <!-- content goes there -->
-          <form id="todo">
-            <input id="todoEntry" placeholder="enter a todo item" /><button type="submit">Submit</button>
-          </form>
-          <div id="list"></div>
+          <div id="bLoggedIn" class="notLoggedIn">
+            <div class="loginPage">
+              <p>This is a todo app.</p>
+              <div class="row">
+                <div class="col">&nbsp;</div>
+                <div class="col">
+                  <button id="login">Login with Google</button>
+                </div>
+              </div>
+            </div>
+            <div class="todoList">
+              <div class="row">
+                <a class="float-right" href="#" id="logout">logout</a>
+              </div>
+              <form id="todo">
+                <input id="todoEntry" placeholder="enter a todo item" /><button type="submit">Submit</button>
+              </form>
+              <div id="list"></div>
+            </div>
+          </div>
         </div>
       </div>
 
