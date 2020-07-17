@@ -1,24 +1,23 @@
 // Libraries
-import Framework7 from 'framework7/framework7.esm.bundle'
 import config from "./firebase.js";
-import firebase from 'firebase/app';
-import 'firebase/database';
+import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-app.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-database.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/framework7/1.4.2/js/framework7.min.js";
 
-// Theme
-var theme = 'auto';
+// here initialize the app
+var myApp = new Framework7();
+
+// If your using custom DOM library, then save it to $$ variable
+var $$ = Dom7;
+
+// Add the view
+myApp.addView('.view-main', {
+
+    // enable the dynamic navbar for this view:
+    dynamicNavbar: true
+});
 
 firebase.initializeApp(config);
-
-// Init F7
-new Framework7({
-  root: '#app',
-  theme: theme,
-  // Fix for iPhone X notch
-  statusbar: {
-    overlay: Framework7.device.ios ? Framework7.device.webView || Framework7.device.cordova : 'auto',
-  },
-})
-
 
 function addTodo(sKey, sTodo){
   let oTodo = document.createElement("p");
