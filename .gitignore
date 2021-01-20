@@ -4,6 +4,5 @@ dist/
 .DS_Store
 package-lock.json
 .theia
-docs/
 .firebaserc
 public/firebase.js
